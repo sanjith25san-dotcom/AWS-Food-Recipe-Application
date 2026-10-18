@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food Recipe Application | Discover Delicious Recipes</title>
+    <meta name="description" content="Discover delicious recipes, explore cooking ideas and share your favourite dishes.">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">🍴 Recipe<span>Hub</span></a>
+
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#recipes">Explore Recipes</a>
+                <a href="#add-recipe" class="nav-add-btn">+ Add Recipe</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero" id="home">
+        <div class="hero-content">
+
+            <div class="hero-badge">✨ Discover • Cook • Enjoy</div>
+
+            <div class="logo">🍽️</div>
+
+            <h1>Discover the Joy of Cooking</h1>
+
+            <p>
+                Explore delicious recipes from everyday favourites
+                to special dishes. Find inspiration and cook
+                something amazing today.
+            </p>
+
+            <a href="#recipes" class="hero-button">
+                Explore Recipes →
+            </a>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- SEARCH AND FILTERS -->
+        <section class="search-section" id="search">
+
+            <div class="section-heading">
+                <span class="section-label">FIND YOUR FAVOURITE</span>
+                <h2>What Would You Like to Cook?</h2>
+                <p class="search-description">
+                    Search our recipe collection and discover your next meal.
+                </p>
+            </div>
+
+       
+<div class="search-box">
+
+    <div class="search-input-container">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search for biryani, dosa, pasta..."
+            maxlength="100"
+            autocomplete="off"
+            aria-label="Search recipes"
+            aria-controls="searchSuggestions"
+            aria-expanded="false"
+        >
+
+        <!-- LIVE SEARCH SUGGESTIONS -->
+
+        <div
+            id="searchSuggestions"
+            class="search-suggestions"
+            role="listbox"
+            aria-label="Recipe suggestions"
+            hidden
+        ></div>
+
+    </div>
+
+    <button type="button" onclick="searchRecipes()">
+        Search
+    </button>
+
+    <button type="button" onclick="clearSearch()">
+        Clear Search
+    </button>
+
+</div>
+
+
+            <div class="filter-container">
+
+                <div class="category-filter">
+                    <label for="categoryFilter">Category</label>
+
+                    <select id="categoryFilter" onchange="applyFilters()">
+                        <option value="all">All Categories</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Main Course">Main Course</option>
+                        <option value="Starters">Starters</option>
+                        <option value="Snacks">Snacks</option>
+                        <option value="Desserts">Desserts</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Soups">Soups</option>
+                        <option value="Salads">Salads</option>
+                    </select>
+                </div>
+
+                <div class="sort-filter">
+                    <label for="sortFilter">Sort By</label>
+
+                    <select id="sortFilter" onchange="applyFilters()">
+                        <option value="default">Default Order</option>
+                        <option value="nameAsc">Name A-Z</option>
+                        <option value="nameDesc">Name Z-A</option>
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+
+                <div class="reset-filter">
+                    <button type="button" onclick="resetFilters()">
+                        ↻ Reset Filters
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RECIPE COLLECTION -->
+        <section class="recipes-section" id="recipes">
+
+            <div class="section-heading">
+                <span class="section-label">EXPLORE OUR COLLECTION</span>
+                <h2>Delicious Recipes for Every Occasion</h2>
+                <p>
+                    From quick breakfasts to delicious dinners,
+                    discover dishes you'll love to prepare.
+                </p>
+            </div>
+
+            <p id="recipeCount" class="recipe-count"></p>
+
+            <div id="recipeList">
+                <div class="loading-message">
+                    <p>Loading delicious recipes...</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ADD YOUR OWN RECIPE -->
+        <section class="add-recipe-section" id="add-recipe">
+
+            <div class="section-heading">
+                <span class="section-label">SHARE YOUR CREATION</span>
+                <h2>Have a Recipe to Share?</h2>
+                <p>
+                    Our collection is ready to explore.
+                    You can also contribute your own favourite recipe!
+                </p>
+            </div>
+
+            <form id="addRecipeForm">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="recipeName">Recipe Name</label>
+                        <input
+                            type="text"
+                            id="recipeName"
+                            placeholder="Enter recipe name"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipeCategory">Category</label>
+                        <input
+                            type="text"
+                            id="recipeCategory"
+                            placeholder="Example: Main Course"
+                            maxlength="50"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="cookingTime">Cooking Time</label>
+                        <input
+                            type="text"
+                            id="cookingTime"
+                            placeholder="Example: 30 minutes"
+                            maxlength="30"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="difficulty">Difficulty</label>
+                        <select id="difficulty" required>
+                            <option value="">Select difficulty</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <textarea
+                        id="ingredients"
+                        rows="6"
+                        maxlength="3000"
+                        placeholder="Enter each ingredient on a new line"
+                        required
+                    ></textarea>
+                    <small class="field-help">
+                        Enter each ingredient on a separate line.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="preparationSteps">Preparation Steps</label>
+                    <textarea
+                        id="preparationSteps"
+                        rows="8"
+                        maxlength="5000"
+                        placeholder="Enter each preparation step on a new line"
+                        required
+                    ></textarea>
+                    <small class="field-help">
+                        Enter each preparation step on a separate line.
+                    </small>
+                </div>
+<!-- RECIPE IMAGE UPLOAD -->
+<div class="form-group">
+    <label for="recipeImage">Recipe Image</label>
+
+    <input
+        type="file"
+        id="recipeImage"
+        accept="image/jpeg,image/png,image/webp"
+    >
+
+    <small class="field-help">
+        Choose a JPG, PNG, or WebP image (maximum 5 MB).
+    </small>
+</div>
+<!-- Cloudflare CAPTCHA for image uploads -->
+<div id="imageUploadCaptcha" style="display: none;">
+    <div class="cf-turnstile"
+       data-sitekey="0x4AAAAAAFZe2Ep2J5sLjC3C"></div>
+    </div>
+</div>
+                <div class="form-buttons">
+
+                    <button
+                        type="submit"
+                        id="submitRecipeButton"
+                        class="add-recipe-button"
+                    >
+                        + Add Recipe
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelEditButton"
+                        onclick="cancelEdit()"
+                    >
+                        Cancel Edit
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+
+            <h3>🍴 RecipeHub</h3>
+
+            <p>
+                Discover recipes. Create delicious meals.
+                Share the joy of cooking.
+            </p>
+
+            <p class="copyright">
+                © 2026 Food Recipe Application. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
